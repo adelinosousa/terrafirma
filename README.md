@@ -1,5 +1,4 @@
 # Terrafirma
-Automated Github Actions using Terraform
 
 ## Overview
 
