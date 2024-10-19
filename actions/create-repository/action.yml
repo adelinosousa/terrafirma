@@ -22,10 +22,6 @@ inputs:
 
 runs:
   using: "composite"
-  defaults:
-    run:
-      shell: bash
-      working-directory: actions/create-repository
   steps:
     - name: "Checkout the repository"
       uses: actions/checkout@v4
@@ -33,15 +29,21 @@ runs:
     - name: "Set up Terraform"
       uses: hashicorp/setup-terraform@v3
       with:
-        terraform_version: ${{ vars.TERRAFORM_VERSION }}
+        terraform_version: 1.9.8
 
     - name: "Initialise Terraform"
+      shell: bash
+      working-directory: actions/create-repository
       run: terraform init --input=false
 
     - name: "Validate Terraform"
+      shell: bash
+      working-directory: actions/create-repository
       run: terraform validate
 
     - name: "Create repository"
+      working-directory: actions/create-repository
+      shell: bash
       env:
         TF_VAR_github_token: ${{ secrets.GITHUB_TOKEN }}
         TF_VAR_github_organisation: ${{ inputs.organisation }}
