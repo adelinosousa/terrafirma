@@ -19,9 +19,14 @@ inputs:
   template:
     description: "Name of the template repository"
     required: false
+  token:
+    description: "Github token"
+    required: true
 
 runs:
   using: "composite"
+  env:
+    GITHUB_TOKEN: ${{ inputs.token }}
   steps:
     - name: "Checkout the repository"
       uses: actions/checkout@v4
@@ -45,7 +50,7 @@ runs:
       working-directory: actions/create-repository
       shell: bash
       env:
-        TF_VAR_github_token: ${{ secrets.GITHUB_TOKEN }}
+        TF_VAR_github_token: ${{ env.GITHUB_TOKEN }}
         TF_VAR_github_organisation: ${{ inputs.organisation }}
         TF_VAR_github_username: ${{ github.actor }}
         TF_VAR_repository_name: ${{ inputs.name }}
