@@ -27,8 +27,6 @@ defaults:
 
 runs:
   using: "composite"
-  timeout-minutes: 10
-  permissions: {}
   steps:
     - name: "Checkout the repository"
       uses: actions/checkout@v4
