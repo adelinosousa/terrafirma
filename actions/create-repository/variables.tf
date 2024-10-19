@@ -6,7 +6,6 @@ variable "github_token" {
 variable "github_organisation" {
   description = "The GitHub organisation to create the repository in"
   type        = string
-  nullable    = true
 }
 
 variable "github_username" {
@@ -27,7 +26,6 @@ variable "repository_name" {
 variable "repository_description" {
   description = "The description of the repository to create"
   type        = string
-  nullable    = true
 }
 
 variable "repository_private" {
@@ -38,5 +36,4 @@ variable "repository_private" {
 variable "repository_template" {
   description = "The name of the repository template to use"
   type        = string
-  nullable    = true
 }

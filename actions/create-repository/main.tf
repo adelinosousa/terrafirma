@@ -17,7 +17,7 @@ provider "github" {
 resource "github_repository" "repository" {
   name                    = var.repository_name
   description             = var.repository_description
-  visibility              = var.repository_private ? (var.github_organisation == null ? "private" : "internal") : "public"
+  visibility              = var.repository_private ? (var.github_organisation == "" ? "private" : "internal") : "public"
   has_issues              = true
   allow_rebase_merge      = false
   allow_merge_commit      = false
@@ -28,9 +28,9 @@ resource "github_repository" "repository" {
   auto_init               = true
 
   dynamic "template" {
-    for_each = var.repository_template != null ? [var.repository_template] : []
+    for_each = var.repository_template != "" ? [var.repository_template] : []
     content {
-      owner = var.github_organisation == null ? var.github_username : var.github_organisation
+      owner = var.github_organisation == "" ? var.github_username : var.github_organisation
       repository = template.value
     }
   }
