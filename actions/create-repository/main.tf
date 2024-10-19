@@ -91,12 +91,7 @@ resource "github_branch_protection" "default" {
   #   required_approving_review_count = 1
   #   require_last_push_approval      = true
   # }
-
-  required_status_checks {
-    strict   = true
-    contexts = []
-  }
-
+  
   lifecycle {
     ignore_changes = [
       pattern,
