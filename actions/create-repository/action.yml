@@ -20,13 +20,12 @@ inputs:
     description: "Name of the template repository"
     required: false
 
-defaults:
-  run:
-    shell: bash
-    working-directory: actions/create-repository
-
 runs:
   using: "composite"
+  defaults:
+    run:
+      shell: bash
+      working-directory: actions/create-repository
   steps:
     - name: "Checkout the repository"
       uses: actions/checkout@v4
