@@ -35,16 +35,19 @@ resource "github_repository" "repository" {
     }
   }
 
-  security_and_analysis {
-    # Requires GitHub Enterprise with GitHub Advanced Security license
-    # advanced_security {
-    #   status = "enabled"
-    # }
-    secret_scanning {
-      status = var.repository_private ? "disabled" : "enabled"
-    }
-    secret_scanning_push_protection {
-      status = var.repository_private ? "disabled" : "enabled"
+  dynamic "security_and_analysis" {
+    for_each = var.repository_private ? [] : [1]
+    content {
+      # Requires GitHub Enterprise with GitHub Advanced Security license
+      # advanced_security {
+      #   status = "enabled"
+      # }
+      secret_scanning {
+        status = "enabled"
+      }
+      secret_scanning_push_protection {
+        status = "enabled"
+      }
     }
   }
 
