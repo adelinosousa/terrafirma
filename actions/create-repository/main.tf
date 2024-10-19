@@ -119,9 +119,5 @@ resource "github_repository_environment" "production" {
   repository          = github_repository.repository.name
   can_admins_bypass   = false
   prevent_self_review = true
-
-  reviewers {
-    users = [var.github_username]
-  }
 }
 
