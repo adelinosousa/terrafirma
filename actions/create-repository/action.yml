@@ -1,0 +1,60 @@
+name: "Create Github repository with best practices"
+description: "Github Action to create a new repository with best practices"
+author: "Terrafirma"
+
+inputs:
+  organisation:
+    description: "Name of the organisation"
+    required: false
+  name:
+    description: "Name of the repository"
+    required: true
+  description:
+    description: "Description of the repository"
+    required: false
+  private:
+    description: "Whether the repository is private. Defaults to true (private or internal if organisation is set)."
+    required: false
+    default: true
+  template:
+    description: "Name of the template repository"
+    required: false
+
+secrets:
+  USER_GITHUB_TOKEN:
+    description: "Token for the Github repository"
+
+defaults:
+  run:
+    shell: bash
+    working-directory: actions/create-repository
+
+runs:
+  using: "composite"
+  timeout-minutes: 10
+  permissions: {}
+  steps:
+    - name: "Checkout the repository"
+      uses: actions/checkout@v4
+
+    - name: "Set up Terraform"
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: ${{ vars.TERRAFORM_VERSION }}
+
+    - name: "Initialise Terraform"
+      run: terraform init --input=false
+
+    - name: "Validate Terraform"
+      run: terraform validate
+
+    - name: "Create repository"
+      env:
+        TF_VAR_github_token: ${{ secrets.USER_GITHUB_TOKEN }}
+        TF_VAR_github_organisation: ${{ inputs.organisation }}
+        TF_VAR_github_username: ${{ github.actor }}
+        TF_VAR_repository_name: ${{ inputs.name }}
+        TF_VAR_repository_description: ${{ inputs.description }}
+        TF_VAR_repository_private: ${{ inputs.private }}
+        TF_VAR_repository_template: ${{ inputs.template }}
+      run: terraform apply --input=false --auto-approve
