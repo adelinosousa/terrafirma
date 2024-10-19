@@ -87,7 +87,7 @@ resource "github_branch_protection" "default" {
   required_pull_request_reviews {
     dismiss_stale_reviews           = true
     restrict_dismissals             = true
-    require_code_owner_reviews      = true
+    require_code_owner_reviews      = var.repository_private || var.github_organisation == "" ? false : true
     required_approving_review_count = 1
     require_last_push_approval      = true
   }
