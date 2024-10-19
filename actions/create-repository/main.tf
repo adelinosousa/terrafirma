@@ -79,10 +79,10 @@ resource "github_branch_default" "default" {
 resource "github_branch_protection" "default" {
   repository_id                   = github_repository.repository.id
   pattern                         = github_branch_default.default.branch
-  enforce_admins                  = true
-  require_signed_commits          = true
-  required_linear_history         = true
-  require_conversation_resolution = true
+  # enforce_admins                  = true
+  # require_signed_commits          = true
+  # required_linear_history         = true
+  # require_conversation_resolution = true
 
   # required_pull_request_reviews {
   #   dismiss_stale_reviews           = true
@@ -91,7 +91,12 @@ resource "github_branch_protection" "default" {
   #   required_approving_review_count = 1
   #   require_last_push_approval      = true
   # }
-  
+
+  # required_status_checks {
+  #   strict   = true
+  #   contexts = []
+  # }
+
   lifecycle {
     ignore_changes = [
       pattern,
