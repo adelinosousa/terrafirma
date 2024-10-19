@@ -62,9 +62,19 @@ resource "github_repository" "repository" {
   }
 }
 
+resource "github_branch" "main" {
+  repository = github_repository.repository.name
+  branch     = "main"
+}
+
+resource "github_branch_default" "default" {
+  repository = github_repository.repository.name
+  branch     = github_branch.main.branch
+}
+
 resource "github_branch_protection" "default" {
   repository_id                   = github_repository.repository.id
-  pattern                         = github_repository.repository.github_branch_default
+  pattern                         = github_repository.default.branch
   enforce_admins                  = true
   require_signed_commits          = true
   required_linear_history         = true
