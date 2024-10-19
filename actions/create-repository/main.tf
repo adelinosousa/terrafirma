@@ -64,7 +64,7 @@ resource "github_repository" "repository" {
 
 resource "github_branch_protection" "default" {
   repository_id                   = github_repository.repository.id
-  pattern                         = github_repository.repository.default_branch
+  pattern                         = github_repository.repository.github_branch_default
   enforce_admins                  = true
   require_signed_commits          = true
   required_linear_history         = true
