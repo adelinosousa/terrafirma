@@ -84,13 +84,13 @@ resource "github_branch_protection" "default" {
   required_linear_history         = true
   require_conversation_resolution = true
 
-  required_pull_request_reviews {
-    dismiss_stale_reviews           = true
-    restrict_dismissals             = var.repository_private || var.github_organisation == "" ? false : true
-    require_code_owner_reviews      = var.repository_private || var.github_organisation == "" ? false : true
-    required_approving_review_count = 1
-    require_last_push_approval      = true
-  }
+  # required_pull_request_reviews {
+  #   dismiss_stale_reviews           = true
+  #   restrict_dismissals             = var.repository_private || var.github_organisation == "" ? false : true
+  #   require_code_owner_reviews      = var.repository_private || var.github_organisation == "" ? false : true
+  #   required_approving_review_count = 1
+  #   require_last_push_approval      = true
+  # }
 
   required_status_checks {
     strict   = true
