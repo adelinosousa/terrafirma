@@ -36,16 +36,13 @@ runs:
 
     - name: "Initialise Terraform"
       shell: bash
-      working-directory: ${{github.action_path}}/actions/create-repository
       run: terraform init --input=false
 
     - name: "Validate Terraform"
       shell: bash
-      working-directory: ${{github.action_path}}/actions/create-repository
       run: terraform validate
 
     - name: "Create repository"
-      working-directory: ${{github.action_path}}/actions/create-repository
       shell: bash
       env:
         TF_VAR_github_token: ${{ inputs.token }}
