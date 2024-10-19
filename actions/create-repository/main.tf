@@ -36,9 +36,10 @@ resource "github_repository" "repository" {
   }
 
   security_and_analysis {
-    advanced_security {
-      status = "enabled"
-    }
+    # Requires GitHub Enterprise with GitHub Advanced Security license
+    # advanced_security {
+    #   status = "enabled"
+    # }
     secret_scanning {
       status = var.repository_private ? "disabled" : "enabled"
     }
