@@ -62,4 +62,5 @@ runs:
       run: terraform apply --input=false --auto-approve
 
     - name: "Get repository URL"
+      shell: bash
       run: echo "repository_url=$(terraform output repository_url)" >> "${GITHUB_OUTPUT}"
