@@ -23,6 +23,10 @@ inputs:
     description: "Github token"
     required: true
 
+outputs:
+  repository_url:
+    description: "URL of the repository"
+
 runs:
   using: "composite"
   steps:
@@ -56,3 +60,6 @@ runs:
         TF_VAR_repository_private: ${{ inputs.private }}
         TF_VAR_repository_template: ${{ inputs.template }}
       run: terraform apply --input=false --auto-approve
+
+    - name: "Get repository URL"
+      run: echo "repository_url=$(terraform output repository_url)" >> "${GITHUB_OUTPUT}"

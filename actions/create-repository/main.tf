@@ -14,6 +14,11 @@ provider "github" {
   owner = var.github_organisation
 }
 
+locals {
+  # Limited github accounts can't environments, or branch protections
+  limited_account = var.repository_private && var.github_organisation == "" ? true : false
+}
+
 resource "github_repository" "repository" {
   name                    = var.repository_name
   description             = var.repository_description
@@ -77,7 +82,7 @@ resource "github_branch_default" "default" {
 }
 
 resource "github_branch_protection" "default" {
-  count                           = var.repository_private && var.github_organisation == "" ? 0 : 1
+  count                           = local.limited_account ? 0 : 1
   repository_id                   = github_repository.repository.id
   pattern                         = github_branch_default.default.branch
   enforce_admins                  = true
@@ -107,7 +112,7 @@ resource "github_branch_protection" "default" {
 }
 
 resource "github_repository_environment" "development" {
-  count               = var.repository_private && var.github_organisation == "" ? 0 : 1
+  count               = local.limited_account ? 0 : 1
   environment         = "development"
   repository          = github_repository.repository.name
   can_admins_bypass   = true
@@ -115,7 +120,7 @@ resource "github_repository_environment" "development" {
 }
 
 resource "github_repository_environment" "production" {
-  count               = var.repository_private && var.github_organisation == "" ? 0 : 1
+  count               = local.limited_account ? 0 : 1
   environment         = "production"
   repository          = github_repository.repository.name
   can_admins_bypass   = false
