@@ -24,7 +24,9 @@ inputs:
     required: true
 
 outputs:
-  repository_url: ${{ steps.get_repository_url.outputs.repository_url }}
+  repository_url:
+    description: "URL of the created repository"
+    value: ${{ steps.get_repository_url.outputs.repository_url }}
 
 runs:
   using: "composite"
