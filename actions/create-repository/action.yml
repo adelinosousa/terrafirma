@@ -42,6 +42,8 @@ runs:
       shell: bash
       working-directory: ${{ github.action_path }}
       run: terraform init --input=false
+      with:
+        terraform_wrapper: false
 
     - name: "Validate Terraform"
       shell: bash
@@ -63,4 +65,4 @@ runs:
 
     - name: "Get repository URL"
       shell: bash
-      run: echo "repository_url=$(terraform output repository_url)" >> "${GITHUB_OUTPUT}"
+      run: echo "repository_url=$(terraform output -raw repository_url)" >> "${GITHUB_OUTPUT}"
