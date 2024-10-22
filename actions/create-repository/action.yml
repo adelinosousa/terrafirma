@@ -37,13 +37,12 @@ runs:
       uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: 1.9.8
+        terraform_wrapper: false
 
     - name: "Initialise Terraform"
       shell: bash
       working-directory: ${{ github.action_path }}
       run: terraform init --input=false
-      with:
-        terraform_wrapper: false
 
     - name: "Validate Terraform"
       shell: bash
@@ -65,4 +64,5 @@ runs:
 
     - name: "Get repository URL"
       shell: bash
-      run: echo "repository_url=$(terraform output -raw repository_url)" >> "${GITHUB_OUTPUT}"
+      run: |
+        echo "repository_url=$(terraform output -raw repository_url)" >> "${GITHUB_OUTPUT}"
