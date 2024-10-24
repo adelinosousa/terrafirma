@@ -31,3 +31,21 @@ jobs:
       - name: "Validate Terraform"
         run: |
           terraform validate
+
+      - name: "Create repository"
+        id: create_repository
+        uses: .
+        with:
+          name: "test-repository"
+          token: ${{ secrets.GH_TEST_TOKEN }}
+          private: false
+
+      - name: "Check repository"
+        run: |
+          echo "Repository URL: ${{ steps.create_repository.outputs.repository_url }}"
+          curl -s -o /dev/null -w "%{http_code}" ${{ steps.create_repository.outputs.repository_url }}
+          echo "Repository created successfully"
+
+      - name: "Destroy repository"
+        if: always()
+        run: terraform destroy --auto-approve
