@@ -1,0 +1,34 @@
+name: "Create Github repository tests"
+
+on:
+  pull_request:
+    paths:
+      - "actions/create-repository/**"
+    branches:
+      - main
+
+defaults:
+  run:
+    shell: bash
+    working-directory: "actions/create-repository"
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout the repository"
+        uses: actions/checkout@v4
+
+      - name: "Set up Terraform"
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.8
+
+      - name: "Initialise Terraform"
+        run: terraform init --input=false
+
+      - name: "Validate Terraform"
+        run: |
+          terraform validate
+          terraform plan
