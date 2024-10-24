@@ -106,7 +106,6 @@ resource "github_branch_protection" "default" {
     ignore_changes = [
       pattern,
     ]
-    prevent_destroy = true
   }
 }
 
