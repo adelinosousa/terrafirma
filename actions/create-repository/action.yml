@@ -1,0 +1,66 @@
+name: "Create Github repository with best practices"
+description: "Github Action to create a new repository with best practices"
+author: "Terrafirma"
+
+inputs:
+  organisation:
+    description: "Name of the organisation"
+    required: false
+  name:
+    description: "Name of the repository"
+    required: true
+  description:
+    description: "Description of the repository"
+    required: false
+  private:
+    description: "Whether the repository is private. Defaults to true (private or internal if organisation is set)."
+    required: false
+    default: true
+  template:
+    description: "Name of the template repository"
+    required: false
+  token:
+    description: "Github token"
+    required: true
+
+outputs:
+  repository_url:
+    description: "URL of the created repository"
+    value: ${{ steps.get_repository_url.outputs.repository_url }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Checkout the repository"
+      uses: actions/checkout@v4
+
+    - name: "Set up Terraform"
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.9.8
+        terraform_wrapper: false
+
+    - name: "Initialise Terraform"
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: terraform init --input=false
+
+    - name: "Create repository"
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      env:
+        TF_VAR_github_token: ${{ inputs.token }}
+        TF_VAR_github_organisation: ${{ inputs.organisation }}
+        TF_VAR_github_username: ${{ github.actor }}
+        TF_VAR_repository_name: ${{ inputs.name }}
+        TF_VAR_repository_description: ${{ inputs.description }}
+        TF_VAR_repository_private: ${{ inputs.private }}
+        TF_VAR_repository_template: ${{ inputs.template }}
+      run: terraform apply --input=false --auto-approve
+
+    - name: "Get repository URL"
+      id: get_repository_url
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: |
+        echo "repository_url=$(terraform output -raw repository_url)" >> "${GITHUB_OUTPUT}"

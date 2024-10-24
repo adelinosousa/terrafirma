@@ -12,8 +12,24 @@ jobs:
       - name: "Checkout the repository"
         uses: actions/checkout@v4
 
+      - name: "Setup TFLint"
+        uses: terraform-linters/setup-tflint@v4
+        with:
+          tflint_version: v0.52.0
+
+      - name: "TFLint version"
+        run: tflint --version
+
+      - name: "Init TFLint"
+        run: tflint --init
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
       - name: "Lint terraform files"
-        uses: reviewdog/action-tflint@v1
+        run: tflint -f compact
+
+      - name: "Lint action files"
+        uses: reviewdog/action-actionlint@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review

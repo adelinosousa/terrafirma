@@ -1,0 +1,52 @@
+name: "Create Github repository tests"
+
+on:
+  pull_request:
+    paths:
+      - "actions/create-repository/**"
+      - ".github/workflows/create-repository-tests.yml"
+    branches:
+      - main
+
+defaults:
+  run:
+    shell: bash
+    working-directory: "actions/create-repository"
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout the repository"
+        uses: actions/checkout@v4
+
+      - name: "Set up Terraform"
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.8
+
+      - name: "Initialise Terraform"
+        run: terraform init --input=false
+
+      - name: "Validate Terraform"
+        run: |
+          terraform validate
+
+      - name: "Create repository"
+        id: create_repository
+        uses: .
+        with:
+          name: "test-repository"
+          token: ${{ secrets.GH_TEST_TOKEN }}
+          private: false
+
+      - name: "Check repository"
+        run: |
+          echo "Repository URL: ${{ steps.create_repository.outputs.repository_url }}"
+          curl -s -o /dev/null -w "%{http_code}" ${{ steps.create_repository.outputs.repository_url }}
+          echo "Repository created successfully"
+
+      - name: "Destroy repository"
+        if: always()
+        run: terraform destroy --auto-approve
