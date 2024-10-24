@@ -67,7 +67,6 @@ resource "github_repository" "repository" {
       allow_update_branch,
       auto_init,
     ]
-    prevent_destroy = true
   }
 }
 
