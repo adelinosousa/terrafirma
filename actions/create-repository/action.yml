@@ -45,11 +45,6 @@ runs:
       working-directory: ${{ github.action_path }}
       run: terraform init --input=false
 
-    - name: "Validate Terraform"
-      shell: bash
-      working-directory: ${{ github.action_path }}
-      run: terraform validate
-
     - name: "Create repository"
       shell: bash
       working-directory: ${{ github.action_path }}
