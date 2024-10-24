@@ -17,7 +17,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
-          tflint_version: 0.53.0
           tflint_rulesets: "azurerm aws"
 
       - name: "Lint action files"
