@@ -16,7 +16,7 @@ defaults:
 jobs:
   tests:
     runs-on: ubuntu-latest
-
+    timeout-minutes: 2
     steps:
       - name: "Checkout the repository"
         uses: actions/checkout@v4
@@ -47,6 +47,8 @@ jobs:
           curl -s -o /dev/null -w "%{http_code}" ${{ steps.create_repository.outputs.repository_url }}
           echo "Repository created successfully"
 
-      # - name: "Destroy repository"
-      #   if: always()
-      #   run: terraform destroy --auto-approve
+      - name: "Destroy repository"
+        if: always()
+        env:
+          TF_VAR_github_token: ${{ secrets.GH_TEST_TOKEN }}
+        run: terraform destroy --auto-approve
