@@ -16,7 +16,7 @@ defaults:
 jobs:
   tests:
     runs-on: ubuntu-latest
-
+    timeout-minutes: 2
     steps:
       - name: "Checkout the repository"
         uses: actions/checkout@v4
@@ -35,7 +35,7 @@ jobs:
 
       - name: "Create repository"
         id: create_repository
-        uses: .
+        uses: ./actions/create-repository
         with:
           name: "test-repository"
           token: ${{ secrets.GH_TEST_TOKEN }}
@@ -49,4 +49,12 @@ jobs:
 
       - name: "Destroy repository"
         if: always()
+        env:
+          TF_VAR_github_token: ${{ secrets.GH_TEST_TOKEN }}
+          TF_VAR_github_organisation: ""
+          TF_VAR_github_username: ${{ github.actor }}
+          TF_VAR_repository_name: "test-repository"
+          TF_VAR_repository_description: ""
+          TF_VAR_repository_private: false
+          TF_VAR_repository_template: ""
         run: terraform destroy --auto-approve
