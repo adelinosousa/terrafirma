@@ -2,8 +2,9 @@ name: "Create Github repository tests"
 
 on:
   pull_request:
-    # paths:
-    #   - "actions/create-repository/**"
+    paths:
+      - "actions/create-repository/**"
+      - ".github/workflows/create-repository-tests.yml"
     branches:
       - main
 
