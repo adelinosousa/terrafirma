@@ -35,7 +35,7 @@ jobs:
 
       - name: "Create repository"
         id: create_repository
-        uses: ./
+        uses: ./actions/create-repository
         with:
           name: "test-repository"
           token: ${{ secrets.GH_TEST_TOKEN }}
@@ -47,6 +47,6 @@ jobs:
           curl -s -o /dev/null -w "%{http_code}" ${{ steps.create_repository.outputs.repository_url }}
           echo "Repository created successfully"
 
-      - name: "Destroy repository"
-        if: always()
-        run: terraform destroy --auto-approve
+      # - name: "Destroy repository"
+      #   if: always()
+      #   run: terraform destroy --auto-approve
