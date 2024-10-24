@@ -51,4 +51,10 @@ jobs:
         if: always()
         env:
           TF_VAR_github_token: ${{ secrets.GH_TEST_TOKEN }}
+          TF_VAR_github_organisation: ""
+          TF_VAR_github_username: ${{ github.actor }}
+          TF_VAR_repository_name: "test-repository"
+          TF_VAR_repository_description: ""
+          TF_VAR_repository_private: false
+          TF_VAR_repository_template: ""
         run: terraform destroy --auto-approve
