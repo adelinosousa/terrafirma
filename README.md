@@ -1,6 +1,6 @@
-# Terrafirma
+![terra_banner](https://github.com/user-attachments/assets/72f578d4-a16c-4da5-a2b5-1a82a2fb7108)
 
-## Overview
+# Overview
 
 **Terrafirma** is a collection of opinionated modular GitHub Actions designed to automate key DevOps and infrastructure workflows using best practices. Whether you're setting up a new GitHub repository, managing subdomains, or provisioning cloud infrastructure, Terrafirma offers plug-and-play actions that simplify complex tasks.
 
