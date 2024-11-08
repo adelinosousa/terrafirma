@@ -1,5 +1,9 @@
 ![terra_banner](https://github.com/user-attachments/assets/55cb0679-0302-4764-b485-c3ee96328d34)
 
+[![PR Checks](https://github.com/adelinosousa/terrafirma/actions/workflows/pr-checks.yml/badge.svg)](https://github.com/adelinosousa/terrafirma/actions)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/adelinosousa/terrafirma.svg?label=latest&sort=semver)](https://github.com/adelinosousa/terrafirma/releases)
+[![Terraform Version](https://img.shields.io/badge/terraform-1.9.x-623CE4.svg?logo=terraform)](https://github.com/hashicorp/terraform/releases)
+
 # Overview
 
 **Terrafirma** is a collection of opinionated modular GitHub Actions designed to automate key DevOps and infrastructure workflows using best practices. Whether you're setting up a new GitHub repository, managing subdomains, or provisioning cloud infrastructure, Terrafirma offers plug-and-play actions that simplify complex tasks.
