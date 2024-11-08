@@ -1,4 +1,4 @@
-![terra_banner](https://github.com/user-attachments/assets/72f578d4-a16c-4da5-a2b5-1a82a2fb7108)
+![terra_banner](https://github.com/user-attachments/assets/55cb0679-0302-4764-b485-c3ee96328d34)
 
 # Overview
 
