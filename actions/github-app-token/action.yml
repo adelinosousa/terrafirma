@@ -9,8 +9,7 @@ runs:
   steps:
     - name: "Authenticate to Google Cloud"
       id: "auth"
-      env:
-        GITHUB_REPOSITORY: "adelinosousa/terrafirma"
+      working-directory: ${{ github.action_path }}
       uses: "google-github-actions/auth@v2"
       with:
         token_format: "access_token"
