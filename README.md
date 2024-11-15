@@ -10,13 +10,9 @@
 
 The goal is to provide seamless modular integration with your existing GitHub workflows and automate common application flows without having to worry about using best practices for security, performance, or scalability.
 
-- [Roadmap](#roadmap)
-- [Contributions](#contributions)
-- [License](#license)
+## Actions
 
-## Roadmap
-- [ ] GitHub repository creation using best practices
-- [ ] Bootstrap repository with application code
+- [google-get-secret](https://github.com/adelinosousa/terrafirma/tree/feat/github-app-token/actions/google-get-secret): retrieves a secret from Google Secret Manager using OIDC (OpenID Connect)
 
 ## Contributions
 

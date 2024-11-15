@@ -48,7 +48,7 @@ Update your workflow the `adelinosousa/terrafirma/actions/google-get-secret` act
     secret_name: "your-secret-name"
 ```
 
-Use the `secret` value where needed:
+Use the `secret` value where's needed:
 
 ```yaml
 - name: Secret output
