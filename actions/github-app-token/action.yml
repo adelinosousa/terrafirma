@@ -7,15 +7,18 @@ author: "Terrafirma"
 runs:
   using: "composite"
   steps:
+    - name: "Checkout the repository"
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ github.action_repository }}
+
     - name: "Authenticate to Google Cloud"
       id: "auth"
-      working-directory: ${{ github.action_path }}
       uses: "google-github-actions/auth@v2"
       with:
         token_format: "access_token"
         workload_identity_provider: "projects/418071954757/locations/global/workloadIdentityPools/terrafirma-github/providers/github"
         service_account: "terrafirma-github-sa@terrafirma-linos.iam.gserviceaccount.com"
-        create_credentials_file: "false"
 
     - name: "Access secret"
       shell: bash
