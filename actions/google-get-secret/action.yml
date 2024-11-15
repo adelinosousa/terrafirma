@@ -1,0 +1,53 @@
+name: "Get Secret from Google Secret Manager"
+description: "Get a secret from Google Secret. Uses OICD, ensure permissions are set up correctly. Visit https://cloud.google.com/blog/products/identity-security/enabling-keyless-authentication-from-github-actions for more information."
+author: "Terrafirma"
+
+inputs:
+  project_id:
+    description: "Project ID"
+    required: true
+  workload_identity_provider:
+    description: "Workload Identity Provider"
+    required: true
+  service_account:
+    description: "Service Account"
+    required: true
+  secret_name:
+    description: "Name of the secret"
+    required: true
+
+outputs:
+  secret:
+    description: "Secret value"
+    value: ${{ steps.get_secret.outputs.value }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Authenticate to Google Cloud"
+      id: "auth"
+      uses: "google-github-actions/auth@v2"
+      with:
+        token_format: "access_token"
+        workload_identity_provider: ${{ inputs.workload_identity_provider }}
+        service_account: ${{ inputs.service_account }}
+        create_credentials_file: "false"
+
+    - name: "Access secret"
+      id: "get_secret"
+      shell: bash
+      env:
+        ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
+        PROJECT_ID: ${{ inputs.project_id }}
+        SECRET_NAME: ${{ inputs.secret_name }}
+      run: |
+        response=$(
+          curl \
+          --request GET \
+          --url "https://secretmanager.googleapis.com/v1/projects/$PROJECT_ID/secrets/$SECRET_NAME/versions/latest:access" \
+          --header "Authorization: Bearer $ACCESS_TOKEN" \
+          --fail-with-body
+        )
+
+        secret_value=$(jq <<< "$response" -r '.payload.data' | base64 -d)
+        echo "value=${secret_value}" >> "${GITHUB_OUTPUT}"
