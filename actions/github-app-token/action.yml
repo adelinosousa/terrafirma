@@ -9,6 +9,8 @@ runs:
   steps:
     - name: "Authenticate to Google Cloud"
       id: "auth"
+      env:
+        GITHUB_REPOSITORY: "adelinosousa/terrafirma"
       uses: "google-github-actions/auth@v2"
       with:
         token_format: "access_token"
@@ -23,7 +25,7 @@ runs:
       run: |
         response=$(
           curl \
-          --request POST \
+          --request GET \
           --url "https://secretmanager.googleapis.com/v1/projects/418071954757/secrets/github-key-test/versions/1:access" \
           --header "Authorization: Bearer $ACCESS_TOKEN" \
           --fail-with-body
