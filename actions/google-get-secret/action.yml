@@ -50,4 +50,6 @@ runs:
         )
 
         secret_value=$(jq <<< "$response" -r '.payload.data' | base64 -d)
+        echo $response
+        echo $secret_value
         echo "value=${secret_value}" >> "${GITHUB_OUTPUT}"
