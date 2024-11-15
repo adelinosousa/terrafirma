@@ -1,3 +1,5 @@
+# https://cloud.google.com/blog/products/identity-security/enabling-keyless-authentication-from-github-actions
+
 name: "Get Github App Token"
 description: "Get a Github App token for the given app ID"
 author: "Terrafirma"
@@ -14,6 +16,7 @@ runs:
         service_account: "terrafirma-github-sa@terrafirma-linos.iam.gserviceaccount.com"
 
     - name: "Access secret"
+      shell: bash
       env:
         ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
       run: |
