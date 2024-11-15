@@ -14,6 +14,7 @@ runs:
         token_format: "access_token"
         workload_identity_provider: "projects/418071954757/locations/global/workloadIdentityPools/terrafirma-github/providers/github"
         service_account: "terrafirma-github-sa@terrafirma-linos.iam.gserviceaccount.com"
+        create_credentials_file: "false"
 
     - name: "Access secret"
       shell: bash
