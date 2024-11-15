@@ -1,0 +1,28 @@
+name: "Get Github App Token"
+description: "Get a Github App token for the given app ID"
+author: "Terrafirma"
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Authenticate to Google Cloud"
+      id: "auth"
+      uses: "google-github-actions/auth@v2"
+      with:
+        token_format: "access_token"
+        workload_identity_provider: "projects/418071954757/locations/global/workloadIdentityPools/terrafirma-github/providers/github"
+        service_account: "terrafirma-github-sa@terrafirma-linos.iam.gserviceaccount.com"
+
+    - name: "Access secret"
+      env:
+        ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
+      run: |
+        response=$(
+          curl \
+          --request POST \
+          --url "https://secretmanager.googleapis.com/v1/projects/418071954757/secrets/github-key-test/versions/1:access" \
+          --header "Authorization: Bearer $ACCESS_TOKEN" \
+          --fail-with-body
+        )
+
+        echo $response
