@@ -69,6 +69,10 @@ Use the `secret` value where's needed:
 
 For more information, visit the [Google Cloud Blog](https://cloud.google.com/blog/products/identity-security/enabling-keyless-authentication-from-github-actions).
 
+## Contribute
+
+See our [documentation](https://github.com/adelinosousa/terrafirma/blob/main/CONTRIBUTING.md) for details.
+
 ## References
 
 - [Google Cloud Secret Manager Documentation](https://cloud.google.com/secret-manager/docs)
