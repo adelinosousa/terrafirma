@@ -16,7 +16,7 @@ The goal is to provide seamless modular integration with your existing GitHub wo
 
 ## Contributions
 
-Contributions welcome! Please submit [issues](https://github.com/adelinosousa/terrafirma/issues/new) and pull requests to help improve.
+[Contributions](https://github.com/adelinosousa/terrafirma/blob/main/CONTRIBUTING.md) welcome! Please submit [issues](https://github.com/adelinosousa/terrafirma/issues/new) and pull requests to help improve.
 
 ## License
 
