@@ -1,3 +1,39 @@
-name: "Get Github App Token"
-description: "Get a Github App token for the given app ID"
+name: "Get Github App Access Token"
+description: "Get Github App Access Token"
 author: "Terrafirma"
+
+inputs:
+  access_token:
+    description: "Terrafirma Access Token"
+    required: true
+  target_url:
+    description: "Target URL"
+    required: false
+    default: "https://terrafirma.linos.dev"
+
+outputs:
+  access_token:
+    description: "Github App Access Token"
+    value: ${{ steps.get_access_token.outputs.access_token }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Get Github App Access Token"
+      id: "get_access_token"
+      shell: bash
+      env:
+        ACCESS_TOKEN: ${{ inputs.access_token }}
+      run: |
+        response=$(
+          curl \
+          --request GET \
+          --url "${{ inputs.target_url }}" \
+          --header "Authorization: Bearer $ACCESS_TOKEN" \
+          --header "Accept: application/json" \
+          --fail-with-body
+        )
+
+        access_token=$(jq <<< "$response" -r '.accessToken')
+        echo "::add-mask::$access_token"
+        echo "access_token=${access_token}" >> "${GITHUB_OUTPUT}"
