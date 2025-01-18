@@ -1,35 +1,31 @@
-name: "Get Github App Access Token"
-description: "Get Github App Access Token"
+name: "Get Terrafirma Github App Access Token"
+description: "Get Terrafirma Github App Access Token"
 author: "Terrafirma"
 
 inputs:
-  access_token:
+  api_token:
     description: "Terrafirma Access Token"
     required: true
-  target_url:
-    description: "Target URL"
-    required: false
-    default: "https://terrafirma.linos.dev"
 
 outputs:
   access_token:
-    description: "Github App Access Token"
+    description: "Terrafirma Github App Access Token"
     value: ${{ steps.get_access_token.outputs.access_token }}
 
 runs:
   using: "composite"
   steps:
-    - name: "Get Github App Access Token"
+    - name: "Get Terrafirma Github App Access Token"
       id: "get_access_token"
       shell: bash
       env:
-        ACCESS_TOKEN: ${{ inputs.access_token }}
+        API_TOKEN: ${{ inputs.api_token }}
       run: |
         response=$(
           curl \
           --request GET \
-          --url "${{ inputs.target_url }}" \
-          --header "Authorization: Bearer $ACCESS_TOKEN" \
+          --url "https://terrafirma.linos.dev" \
+          --header "Authorization: Bearer $API_TOKEN" \
           --header "Accept: application/json" \
           --fail-with-body
         )

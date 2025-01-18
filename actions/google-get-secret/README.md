@@ -35,7 +35,7 @@ permissions:
   id-token: write
 ```
 
-Update your workflow the `adelinosousa/terrafirma/actions/google-get-secret` action:
+Update your workflow with the `adelinosousa/terrafirma/actions/google-get-secret` action:
 
 ```yaml
 - name: "Get Secret from Google Secret Manager"

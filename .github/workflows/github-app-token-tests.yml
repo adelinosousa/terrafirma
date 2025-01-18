@@ -1,0 +1,42 @@
+name: "Github App Token Test"
+
+on:
+  pull_request:
+    paths:
+      - "actions/github-app-token/**"
+      - ".github/workflows/github-app-token-tests.yml"
+    branches:
+      - main
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout the repository"
+        uses: actions/checkout@v4
+
+      - uses: ./actions/github-app-token
+        id: github-app-token
+        with:
+          api_token: ${{ secrets.TERRAFIRMA_ACCESS_TOKEN }}
+
+      - name: "Test Github App Access Token"
+        env:
+          ACCESS_TOKEN: ${{ steps.github-app-token.outputs.access_token }}
+        run: |
+          status_code=$(
+            curl \
+            --request GET \
+            --url "https://api.github.com/user" \
+            --header "Authorization: Bearer $ACCESS_TOKEN" \
+            --header "Accept: application/vnd.github+json" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            --write-out "%{http_code}" \
+            --connect-timeout 30 \
+            --output /dev/null
+          )
+
+          if [ "$status_code" -ne 200 ]; then
+            echo "Failed to use Github App Access Token to access Github API, code: $status_code"
+            exit 1
+          fi
