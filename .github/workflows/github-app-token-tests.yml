@@ -33,7 +33,7 @@ jobs:
             --header "X-GitHub-Api-Version: 2022-11-28" \
             --write-out "%{http_code}" \
             --connect-timeout 30 \
-            --output /dev/null)
+            --output /dev/null
           )
 
           if [ "$status_code" -ne 200 ]; then
