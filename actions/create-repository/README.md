@@ -1,13 +1,29 @@
-# Create GitHub Repository with Best Practices
+# Create GitHub Repository
 
-The `create-repository` action allows you to create a new GitHub repositories using common best practices.
+`create-repository` action allows you to create a new GitHub repositories using common best practices.
 
 ## Usage
 
-### Create Github Token
+Add the `adelinosousa/terrafirma/actions/github-app-token` action to your workflow:
 
-- Permissions to create repositories `repo` scope for user repositories or appropriate organizational permissions.
-- If creating repositories in an organization, ensure you have the necessary access rights.
+```yaml
+uses: adelinosousa/terrafirma/actions/github-app-token@github-app-token-v1.0.0
+id: github-app-token
+with:
+  api_token: ${{ secrets.TERRAFIRMA_ACCESS_TOKEN }}
+```
+
+Use the `access_token` in your workflow:
+
+```yaml
+name: "Create repository"
+id: create_repository
+uses: adelinosousa/terrafirma/actions/create-repository@create-repository-v1.0.0
+with:
+  name: "test-repository"
+  token: ${{ steps.github-app-token.outputs.access_token }}
+  private: false
+```
 
 ### Inputs
 
