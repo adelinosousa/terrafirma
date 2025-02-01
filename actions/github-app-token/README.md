@@ -23,7 +23,7 @@ Use the `access_token` in your workflow. Example, using [create repository actio
 ```yaml
 name: "Create repository"
 id: create_repository
-uses: ./actions/create-repository
+uses: adelinosousa/terrafirma/actions/create-repository@create-repository-v1.0.0
 with:
   name: "test-repository"
   token: ${{ steps.github-app-token.outputs.access_token }}
