@@ -1,0 +1,60 @@
+name: "Generate Semver Tag"
+description: "This action generates a semver tag based on the latest tag in the repository."
+author: "Terrafirma"
+
+inputs:
+  token:
+    description: "Github token"
+    required: true
+
+outputs:
+  new_tag:
+    description: "New semver tag"
+    value: ${{ steps.generate_tag.outputs.new_tag }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Checkout the repository"
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: "Generate tag"
+      id: "generate_tag"
+      shell: bash
+      run: |
+        branch_name=$(git branch --show-current)
+        if [[ $branch_name == "main" || $branch_name == "master" ]]; then
+          echo "Cannot detect version bump on default branch"
+          exit 0
+        fi
+
+        lines_changed=$(git diff --shortstat origin/${{ github.base_ref }}...HEAD | grep -o '[0-9]\+' | awk '{ sum += $1 } END { print sum }' || echo 0)
+        if [[ $lines_changed -eq 0 ]]; then
+          echo "No changes detected"
+          exit 0
+        fi
+
+        latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0")
+
+        IFS='.' read -ra VERSION <<< "${latest_tag//[^0-9.]/}"
+
+        commit_messge=$(git log --pretty=format:"%s" $(git describe --tags --abbrev=0)..HEAD)
+
+        if [[ $commit_messge == *"breaking change"* ]]; then
+          bump_type="major"
+        elif [[ $branch_name == *"feat"* ]]; then
+          bump_type="minor"
+        else
+          bump_type="patch"
+        fi
+
+        case $bump_type in
+          major) VERSION[0]=$((VERSION[0]+1)); VERSION[1]=0; VERSION[2]=0 ;;
+          minor) VERSION[1]=$((VERSION[1]+1)); VERSION[2]=0 ;;
+          patch) VERSION[2]=$((VERSION[2]+1)) ;;
+        esac
+
+        NEW_TAG="${VERSION[0]}.${VERSION[1]}.${VERSION[2]}"
+        echo "new_tag=$NEW_TAG" >> "${GITHUB_OUTPUT}"
