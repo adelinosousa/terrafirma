@@ -1,0 +1,41 @@
+name: "Generate Semver Tag tests"
+
+on:
+  pull_request:
+    paths:
+      - "actions/generate-tag/**"
+      - ".github/workflows/generate-tag-tests.yml"
+    branches:
+      - main
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout the repository"
+        uses: actions/checkout@v4
+
+      - uses: ./actions/github-app-token
+        id: github-app-token
+        with:
+          api_token: ${{ secrets.TERRAFIRMA_ACCESS_TOKEN }}
+
+      - uses: ./actions/generate-tag
+        id: generate_tag
+        with:
+          token: ${{ steps.github-app-token.outputs.access_token }}
+
+      - name: "Test Generate Semver Tag"
+        env:
+          NEW_TAG: ${{ steps.generate_tag.outputs.new_tag }}
+        run: |
+          if [[ ! $NEW_TAG =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Failed to generate semver tag, tag: $NEW_TAG"
+            exit 1
+          fi
+
+          current_tag=$(git describe --tags --abbrev=0)
+          if [[ $NEW_TAG == $current_tag ]]; then
+            echo "Failed to generate semver tag, tag: $NEW_TAG"
+            exit 1
+          fi
