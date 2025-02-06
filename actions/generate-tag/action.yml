@@ -24,8 +24,8 @@ runs:
       id: "generate_tag"
       shell: bash
       run: |
-        branch_name=$(git branch --show-current)
-        echo "current branch=$branch_name"
+        branch_name=${{ github.head_ref }}
+        echo "current branch: $branch_name"
 
         if [[ $branch_name == "main" || $branch_name == "master" ]]; then
           echo "Cannot detect version bump on default branch"
@@ -39,6 +39,7 @@ runs:
         fi
 
         latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0")
+        echo "latest tag: $latest_tag"
 
         IFS='.' read -ra VERSION <<< "${latest_tag//[^0-9.]/}"
 
