@@ -25,6 +25,8 @@ runs:
       shell: bash
       run: |
         branch_name=$(git branch --show-current)
+        echo "current branch=$branch_name"
+
         if [[ $branch_name == "main" || $branch_name == "master" ]]; then
           echo "Cannot detect version bump on default branch"
           exit 0
