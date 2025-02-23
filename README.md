@@ -20,6 +20,7 @@ Ready to dive in? [Install the Terrafirma GitHub App](https://github.com/apps/te
 
 - [google-get-secret](https://github.com/adelinosousa/terrafirma/tree/main/actions/google-get-secret): retrieves a secret from Google Secret Manager using OIDC (OpenID Connect)
 - [create-repository](https://github.com/adelinosousa/terrafirma/tree/main/actions/create-repository): creates a new GitHub repository using common best practices
+- [generate-tag](https://github.com/adelinosousa/terrafirma/tree/main/actions/generate-tag): generates a semantic version tag based on commit changes vs latest tag in main/master branch
 
 ## Contributions ❤️
 
