@@ -6,15 +6,13 @@
 
 # Overview 🚀
 
-**Terrafirma** is your new best friend for automating all things DevOps and infrastructure on GitHub. Think of it as a collection of opinionated, modular GitHub Actions that make the heavy lifting of setting up repositories, managing subdomains, or provisioning cloud infrastructure a walk in the park. With Terrafirma, you get plug-and-play actions that handle the boring (but crucial) stuff—so you can focus on the fun parts of your project 😎.
-
-In other words, we aim to take care of best practices for security, performance, and scalability, so you don't have to. Yes, we’re that nice.
+**Terrafirma** aims to be your go to place for automating all things DevOps and infrastructure on GitHub. Think of it as a collection of opinionated, modular GitHub Actions that make the heavy lifting of setting up repositories, managing releases, or provisioning cloud infrastructure as painless as possible. With Terrafirma, you get plug-and-play actions that handle the boring (but crucial) stuff—so you can focus on the fun parts of your project 😎.
 
 ## Usage 🔧
 
 Most of our actions need a GitHub token with just the right permissions. Rather than spending hours juggling tokens and permissions (yawn 😴), you can simply install the Terrafirma GitHub App. This nifty app handles authentication securely, so you can get right down to business.
 
-Ready to dive in? [Install the Terrafirma GitHub App](https://github.com/apps/terrafirma-linos) for your user, repository, or organization. Once you do, you'll get an API token that works with our `github-app-token` action to fetch the Terrafirma GitHub App token for you (check out the [example here](https://github.com/adelinosousa/terrafirma/tree/main/actions/github-app-token#usage)). Save the API token in your GitHub Actions secrets. It’s valid for 6 months (long enough for a mini vacation 🏖️), and you can regenerate it by reinstalling the app. Just remember, if you uninstall the app, the API token goes kaput 💥 and you won't be able to actions that require Github integration.
+Ready to dive in? [Install the Terrafirma GitHub App](https://github.com/apps/terrafirma-linos) for your user, repository, or organization. Once you do, you'll get an API token that works with our `github-app-token` action to fetch the Terrafirma GitHub App token for you (check out the [example here](https://github.com/adelinosousa/terrafirma/tree/main/actions/github-app-token#usage)). Save the API token in your GitHub Actions secrets. It’s valid for 6 months (long enough for a mini vacation 🏖️), and you can regenerate it by reinstalling the app. Just remember, if you uninstall the app, the API token goes kaput 💥 and you won't be able to consume actions that require Github integration.
 
 ## Actions 🔨
 
