@@ -13,7 +13,7 @@ with:
   api_token: ${{ secrets.TERRAFIRMA_ACCESS_TOKEN }}
 ```
 
-Use the `access_token` in your workflow:
+Use the `access_token` with the `create-repository` action:
 
 ```yaml
 name: "Create repository"
