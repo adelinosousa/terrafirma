@@ -6,7 +6,7 @@
 
 # Overview 🚀
 
-**Terrafirma** aims to be your go to place for automating all things DevOps and infrastructure on GitHub. Think of it as a collection of opinionated, modular GitHub Actions that make the heavy lifting of setting up repositories, managing releases, or provisioning cloud infrastructure as painless as possible. With Terrafirma, you get plug-and-play actions that handle the boring (but crucial) stuff—so you can focus on the fun parts of your project 😎.
+**Terrafirma** aims to be a go to place for automating all the boring (but crucial) DevOps related things—so you can focus on the fun parts of your project. A growing collection of opinionated, modular GitHub Actions to handle mundane tasks as painless as possible. Just plug-and-play the desired Github action in your repo to get started 😎.
 
 ## Usage 🔧
 
