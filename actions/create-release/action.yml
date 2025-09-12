@@ -1,0 +1,92 @@
+name: "Create GitHub Release"
+description: "Creates GitHub Release"
+author: "Terrafirma"
+
+inputs:
+  token:
+    description: "Github token"
+    required: true
+  tag:
+    description: "Tag name"
+    required: true
+  target_commitish:
+    description: "Target commitish"
+    required: false
+  name:
+    description: "Release name"
+    required: false
+  body:
+    description: "Release body"
+    required: false
+  draft:
+    description: "Draft release"
+    required: false
+    default: false
+  prerelease:
+    description: "Pre-release"
+    required: false
+    default: false
+  generate_release_notes:
+    description: "Generates name and body from commit messages for the release"
+    required: false
+    default: true
+  latest_release:
+    description: "Set as latest release"
+    required: false
+    default: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Create release"
+      id: create_release
+      shell: bash
+      timeout-minutes: 1
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
+        GITHUB_REPOSITORY: ${{ github.repository }} # In the format "owner/repo"
+        GITHUB_TAG: ${{ inputs.tag }}
+        GITHUB_TARGET_COMMITISH: ${{ inputs.target_commitish }}
+        GITHUB_NAME: ${{ inputs.name }}
+        GITHUB_BODY: ${{ inputs.body }}
+        GITHUB_DRAFT: ${{ inputs.draft }}
+        GITHUB_PRERELEASE: ${{ inputs.prerelease }}
+        GITHUB_GENERATE_RELEASE_NOTES: ${{ inputs.generate_release_notes }}
+        GITHUB_LATEST_RELEASE: ${{ inputs.latest_release }}
+      run: |
+        request_json=$(
+          jq \
+            --null-input \
+            --arg tag_name "$GITHUB_TAG" \
+            --arg target_commitish "$GITHUB_TARGET_COMMITISH" \
+            --arg name "$GITHUB_NAME" \
+            --arg body "$GITHUB_BODY" \
+            --argjson draft "$GITHUB_DRAFT" \
+            --argjson prerelease "$GITHUB_PRERELEASE" \
+            --argjson generate_release_notes "$GITHUB_GENERATE_RELEASE_NOTES" \
+            --argjson make_latest "$GITHUB_LATEST_RELEASE" \
+            '$ARGS.named'
+        )
+
+        echo "${request_json}"
+
+        response=$(
+          curl \
+          --url "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases" \
+          --header "Authorization: Bearer ${GITHUB_TOKEN}" \
+          --header "Accept: application/vnd.github+json" \
+          --header "X-GitHub-Api-Version: 2022-11-28" \
+          --request POST \
+          --data "${request_json}" \
+          --connect-timeout 30 \
+          --fail-with-body
+        )
+
+        if [[ $? -ne 0 ]]; then
+          echo "Error creating release"
+          echo "${response}"
+          exit 1
+        fi
+
+        HTML_URL=$(echo "${response}" | jq -r '.html_url')
+        echo "Release created successfully at ${HTML_URL}"
